@@ -41,5 +41,5 @@ clean:
 	rm -rf full_image
 
 clean_images:
-	docker rmi phusion/passenger-ruby22:latest phusion/passenger-ruby22:$(VERSION) || true
-	docker rmi phusion/passenger-full:latest phusion/passenger-full:$(VERSION) || true
+	docker rmi konsti/passenger-ruby22:latest konsti/passenger-ruby22:$(VERSION) || true
+	docker rmi konsti/passenger-full:latest konsti/passenger-full:$(VERSION) || true
