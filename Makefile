@@ -35,7 +35,7 @@ release: tag_latest
 	@if ! docker images $(NAME)-full | awk '{ print $$2 }' | grep -q -F $(VERSION); then echo "$(NAME)-full version $(VERSION) is not yet built. Please run 'make build'"; false; fi
 	docker push $(NAME)-ruby22
 	docker push $(NAME)-full
-	@echo "*** Don't forget to create a tag. git tag $(VERSION) && git push origin rel-$(VERSION)"
+	@echo "*** Don't forget to create a tag. git tag $(VERSION) && git push origin $(VERSION)"
 
 clean:
 	rm -rf ruby22_image
