@@ -9,7 +9,6 @@ touch /etc/service/sidekiq/down
 cat > /etc/service/sidekiq/run <<EOF
 #!/bin/bash
 cd /home/app/code
-source /etc/container_environment.sh
 exec chpst -u app bundle exec sidekiq -e $PASSENGER_APP_ENV 2>&1 | logger -t sidekiq
 EOF
 chmod +x /etc/service/sidekiq/run

@@ -37,3 +37,8 @@ mv /kk_build/00_application_env.sh /etc/my_init.d
 mv /kk_build/10_system_env.sh /etc/my_init.d
 mv /kk_build/90_start_services.sh /etc/my_init.d
 chmod +x /etc/my_init.d/*
+
+# Make env sourcing possible
+chmod 755 /etc/container_environment
+chmod 644 /etc/container_environment.sh /etc/container_environment.json
+echo "source /etc/container_environment.sh" > /etc/bash.bashrc
