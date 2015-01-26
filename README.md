@@ -2,12 +2,15 @@
 
 ## What's added/new:
 
- * Log forwarding for all rails and 3rd party application logs
  * Clean system-wide RAILS_ENV, RACK_ENV, NODE_ENV handling
  * Automated ENV variable setup
  * Prepared start scripts for sidekiq, clockwork, ...
  * Pre-installed helper like `psql`, `redis-cli`, `wget`, `ruby rest-client`
  * No sshd daemon (use `docker exec`) exclusivly
+
+## Logs
+
+Make sure your rails/rack/nodejs app logs to STDOUT e.g. with [rails_stdout_logging](https://github.com/heroku/rails_stdout_logging)
 
 ## Environment Variables
 

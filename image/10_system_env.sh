@@ -23,17 +23,3 @@ cd /home/app/code
 exec chpst -u app bundle exec clockwork $CLOCKWORK_FILE 2>&1 | logger -t clockwork
 EOF
 chmod +x /etc/service/clockwork/run
-
-## Rails log forwarder
-
-: ${RAILS_LOG_FILE:="$PASSENGER_APP_ENV.log"}
-
-mkdir -p /home/app/code/log
-touch /home/app/code/log/$RAILS_LOG_FILE
-chown -R app:app /home/app/code
-mkdir /etc/service/rails-log-forwarder
-cat > /etc/service/rails-log-forwarder/run <<EOF
-#!/bin/sh
-exec tail -f -n 0 /home/app/code/log/$RAILS_LOG_FILE
-EOF
-chmod +x /etc/service/rails-log-forwarder/run
