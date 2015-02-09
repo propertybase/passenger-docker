@@ -50,20 +50,38 @@ def set_by_consul(values)
   database_url  = query_consul(service, 'database_url') rescue nil
   if database_url
     database_type = database_url.match(/^([a-z]*):\/\//)[1]
-    database_host = query_consul(database_type)['Address'] rescue nil
-    database_port = query_consul(database_type)['ServicePort'] rescue nil
+
+    no_host_replacement = database_url.match('DATABASE_HOST').is_nil?
+    no_port_replacement = database_url.match('DATABASE_PORT').is_nil?
+
+    unless no_host_replacement
+      database_host = query_consul(database_type)['Address'] rescue nil
+    end
+
+    unless no_port_replacement
+      database_port = query_consul(database_type)['ServicePort'] rescue nil
+    end
   end
 
   if database_url && database_host && database_port
     values['DATABASE_URL'] = database_url.sub(/DATABASE_HOST/, database_host.to_s).sub(/DATABASE_PORT/, database_port.to_s)
+  elsif database_url && no_host_replacement && no_port_replacement
+    values['DATABASE_URL'] = database_url
   end
 
   redis_url      = query_consul(service, 'redis_url') rescue nil
   redis_host     = query_consul('redis')['Address'] rescue nil
   redis_port     = query_consul('redis')['ServicePort'] rescue nil
 
+  if redis_url
+    no_redis_host_replacement = redis_url.match('REDIS_HOST').is_nil?
+    no_redis_port_replacement = redis_url.match('REDIS_PORT').is_nil?
+  end
+
   if redis_host && redis_port && redis_url
     values['REDIS_URL'] = redis_url.sub(/REDIS_HOST/, redis_host.to_s).sub(/REDIS_PORT/, redis_port.to_s)
+  elsif redis_url && no_redis_host_replacement && no_redis_port_replacement
+    values['REDIS_URL'] = redis_url
   end
 
   values
