@@ -51,8 +51,8 @@ def set_by_consul(values)
   if database_url
     database_type = database_url.match(/^([a-z]*):\/\//)[1]
 
-    no_host_replacement = database_url.match('DATABASE_HOST').is_nil?
-    no_port_replacement = database_url.match('DATABASE_PORT').is_nil?
+    no_host_replacement = database_url.match('DATABASE_HOST').nil?
+    no_port_replacement = database_url.match('DATABASE_PORT').nil?
 
     unless no_host_replacement
       database_host = query_consul(database_type)['Address'] rescue nil
@@ -74,8 +74,8 @@ def set_by_consul(values)
   redis_port     = query_consul('redis')['ServicePort'] rescue nil
 
   if redis_url
-    no_redis_host_replacement = redis_url.match('REDIS_HOST').is_nil?
-    no_redis_port_replacement = redis_url.match('REDIS_PORT').is_nil?
+    no_redis_host_replacement = redis_url.match('REDIS_HOST').nil?
+    no_redis_port_replacement = redis_url.match('REDIS_PORT').nil?
   end
 
   if redis_host && redis_port && redis_url
