@@ -3,7 +3,7 @@ PASSENGER_VERSION = 0.9.15
 VERSION = 1.2.0
 
 .PHONY: all build_all \
-				build_ruby22 build_full \
+				build_ruby21 build_ruby22 build_full \
 				tag_latest release clean clean_images
 
 all: build_all
