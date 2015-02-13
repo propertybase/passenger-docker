@@ -7,6 +7,9 @@
  * Prepared start scripts for sidekiq, clockwork, ...
  * Pre-installed helper like `psql`, `redis-cli`, `wget`, `ruby rest-client`
  * No sshd daemon (use `docker exec`) exclusivly
+ * Syslog forwarding to Docker logs disabled by default
+ * Nginx forwarding with tail disabled by default
+ * Nginx log forwarding by symlinks to STDOUT and STDERR
 
 ## Logs
 

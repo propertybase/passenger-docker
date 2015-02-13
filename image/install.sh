@@ -24,6 +24,21 @@ rm -f /etc/insecure_key
 rm -f /etc/insecure_key.pub
 rm -f /usr/sbin/enable_insecure_key
 
+# Disable log forward of syslog by default
+touch /etc/service/syslog-forwarder/down
+touch /etc/service/nginx-log-forwarder/down
+
+# Change logrotate to keep only 1 file
+sed -i 's/rotate\s[0-9]*/rotate 1/' /etc/logrotate.d/syslog-ng
+sed -i 's/rotate\s[0-9]*/rotate 1/' /etc/logrotate.d/nginx
+
+# Disable nginx access logs entirely
+echo "access_log off;" > /etc/nginx/conf.d/10_disable_access_log.conf
+
+# Forward nginx logs
+ln -sf /dev/stdout /var/log/nginx/access.log
+ln -sf /dev/stderr /var/log/nginx/error.log
+
 DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y --no-install-recommends
 DEBIAN_FRONTEND=noninteractive apt-get clean
 rm -rf /var/lib/apt/lists/*
