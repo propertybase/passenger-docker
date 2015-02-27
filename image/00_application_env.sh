@@ -40,12 +40,20 @@ def set_by_link(values)
   if ENV.has_key?('REDIS_PORT_6379_TCP_PORT')
     values['REDIS_URL'] = "redis://#{ENV['REDIS_PORT_6379_TCP_ADDR']}:#{ENV['REDIS_PORT_6379_TCP_PORT']}/#{ENV['REDIS_DATABASE']}"
   end
+
+  # Elasticsearch Support
+  if ENV.has_key?('ELASTICSEARCH_PORT_9200_TCP_PORT')
+    values['ELASTICSEARCH_URL'] = "http://#{ENV['ELASTICSEARCH_PORT_9200_TCP_ADDR']}:#{ENV['ELASTICSEARCH_PORT_9200_TCP_PORT']}"
+  end
+
   values
 end
 
 # Consul must be linked to container with alias consul
 def set_by_consul(values)
   service = ENV['SERVICE_NAME']
+
+  # Database by Consul
 
   database_url  = query_consul(service, 'database_url') rescue nil
   if database_url
@@ -69,6 +77,8 @@ def set_by_consul(values)
     values['DATABASE_URL'] = database_url
   end
 
+  # Redis by Consul
+
   redis_url      = query_consul(service, 'redis_url') rescue nil
   redis_host     = query_consul('redis')['Address'] rescue nil
   redis_port     = query_consul('redis')['ServicePort'] rescue nil
@@ -82,6 +92,23 @@ def set_by_consul(values)
     values['REDIS_URL'] = redis_url.sub(/REDIS_HOST/, redis_host.to_s).sub(/REDIS_PORT/, redis_port.to_s)
   elsif redis_url && no_redis_host_replacement && no_redis_port_replacement
     values['REDIS_URL'] = redis_url
+  end
+
+  # Elasticsearch by Consul
+
+  elasticsearch_url   = query_consul(service, 'elasticsearch_url') rescue nil
+  elasticsearch_host  = query_consul('elasticsearch')['Address'] rescue nil
+  elasticsearch_port  = query_consul('elasticsearch')['ServicePort'] rescue nil
+
+  if elasticsearch_url
+    no_elasticsearch_host_replacement = elasticsearch_url.match('ELASTICSEARCH_HOST').nil?
+    no_elasticsearch_port_replacement = elasticsearch_url.match('ELASTICSEARCH_PORT').nil?
+  end
+
+  if elasticsearch_host && elasticsearch_port && elasticsearch_url
+    values['ELASTICSEARCH_URL'] = elasticsearch_url.sub(/ELASTICSEARCH_HOST/, elasticsearch_host.to_s).sub(/ELASTICSEARCH_PORT/, elasticsearch_port.to_s)
+  elsif elasticsearch_url && no_elasticsearch_host_replacement && no_elasticsearch_port_replacement
+    values['ELASTICSEARCH_URL'] = elasticsearch_url
   end
 
   values
