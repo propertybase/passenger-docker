@@ -40,6 +40,7 @@ ln -sf /dev/stdout /var/log/nginx/access.log
 ln -sf /dev/stderr /var/log/nginx/error.log
 
 DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y --no-install-recommends
+DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
 DEBIAN_FRONTEND=noninteractive apt-get clean
 rm -rf /var/lib/apt/lists/*
 

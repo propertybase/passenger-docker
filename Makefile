@@ -1,6 +1,6 @@
 NAME = konsti/passenger
-PASSENGER_VERSION = 0.9.15
-VERSION = 1.5.0
+PASSENGER_VERSION = 0.9.18
+VERSION = 1.6.0
 
 .PHONY: all build_all \
 				build_ruby21 build_ruby22 build_full \
