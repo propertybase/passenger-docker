@@ -3,14 +3,14 @@
 # Apt packages
 
 DEBIAN_FRONTEND=noninteractive apt-get update -qq
-DEBIAN_FRONTEND=noninteractive apt-get install wget -y -q
+DEBIAN_FRONTEND=noninteractive apt-get install wget sudo -y -q
 DEBIAN_FRONTEND=noninteractive apt-get install ca-certificates -y -q
 
-echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" > /etc/apt/sources.list.d/pgdg.list
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+echo "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 
 DEBIAN_FRONTEND=noninteractive apt-get update -qq
-DEBIAN_FRONTEND=noninteractive apt-get install postgresql-client-9.4 -y -f -q
+DEBIAN_FRONTEND=noninteractive apt-get install postgresql-client-9.5 -y -f -q
 DEBIAN_FRONTEND=noninteractive apt-get install redis-tools -y -q
 gem install rest-client --no-ri --no-rdoc
 

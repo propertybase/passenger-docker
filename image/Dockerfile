@@ -1,5 +1,5 @@
 FROM phusion/BASE_IMAGE:VERSION
-MAINTAINER Konstantin Krauss <konstantin.krauss@me.com>
+MAINTAINER Konstantin Krauss <konstantin@propertybase.com>
 
 ADD . /kk_build
 
